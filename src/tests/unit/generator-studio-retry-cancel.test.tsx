@@ -59,8 +59,17 @@ describe("创作台：失败重试 / 取消生成 入口", () => {
       <GeneratorStudio
         checkInSummary={baseCheckIn}
         currentUser={baseUser}
+        initialConversations={[
+          {
+            createdAt: "2026-04-23T08:00:00.000Z",
+            generationIds: ["job_failed"],
+            id: "conversation_1",
+            title: "测试会话",
+          },
+        ]}
         initialGenerations={[
           {
+            conversationId: "conversation_1",
             count: 1,
             createdAt: "2026-04-23T08:00:00.000Z",
             creditsSpent: 0,
@@ -216,8 +225,17 @@ describe("创作台：失败重试 / 取消生成 入口", () => {
       <GeneratorStudio
         checkInSummary={baseCheckIn}
         currentUser={baseUser}
+        initialConversations={[
+          {
+            createdAt: "2026-04-23T08:00:00.000Z",
+            generationIds: ["job_pending"],
+            id: "conversation_1",
+            title: "测试会话",
+          },
+        ]}
         initialGenerations={[
           {
+            conversationId: "conversation_1",
             count: 1,
             createdAt: "2026-04-23T08:00:00.000Z",
             creditsSpent: 5,
@@ -252,8 +270,17 @@ describe("创作台：失败重试 / 取消生成 入口", () => {
       <GeneratorStudio
         checkInSummary={baseCheckIn}
         currentUser={baseUser}
+        initialConversations={[
+          {
+            createdAt: "2026-04-23T08:00:00.000Z",
+            generationIds: ["job_ok"],
+            id: "conversation_1",
+            title: "测试会话",
+          },
+        ]}
         initialGenerations={[
           {
+            conversationId: "conversation_1",
             count: 1,
             createdAt: "2026-04-23T08:00:00.000Z",
             creditsSpent: 5,

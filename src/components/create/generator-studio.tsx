@@ -164,28 +164,26 @@ export function GeneratorStudio({
   const [composerBottomInset, setComposerBottomInset] = useState(0);
   // 缓存"看到过"的所有 generation，用于跨会话切换时还原本次会话期间产生的新数据。
   const allGenerationsRef = useRef<Map<string, GenerationItem>>(new Map());
+  // 初始化标记：只允许首次挂载时用服务端初始 props 决定会话视图。
+  const didInitSessionRef = useRef(false);
 
-  // 初始化：选择上次活跃会话或最新一条；若用户的 generation 还没有归属任何 conversation，
-  // 先把孤儿 generation 展示出来保证视觉连续性。
+  // 初始化：选择上次活跃会话或最新一条。
+  // 会话列表为空时不展示任何历史 generation —— 已删除会话的图仍保留在右侧历史图片栏与作品页，
+  // 但不属于任何活跃会话，不应聚合回中间对话流。
+  // 该 effect 只跑一次：initialGenerations / initialConversations 在每次 router.refresh() 后都是新引用，
+  // 若允许重跑会把用户"新建对话 / 删除会话"后的本地状态覆盖回旧会话。
   // 这里不主动调用 createSession API（避免在初始渲染就发起网络请求与潜在的测试副作用）；
   // 用户首次发送 generation 时会在 handleGenerate 中按需 createSession，归属落地由后端绑定。
   useEffect(() => {
+    if (didInitSessionRef.current) return;
+    didInitSessionRef.current = true;
+
     const lastId = readLastActive();
     const stored = initialConversations;
-
-    const knownIds = new Set(stored.flatMap((session) => session.generationIds));
-    const orphans = initialGenerations.filter((generation) => !knownIds.has(generation.id));
-    if (stored.length === 0 && orphans.length > 0) {
-      // 把孤儿 generation 直接显示出来；activeSessionId 维持 null，下一次 handleGenerate 自动建会话。
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setSessionGenerations(
-        orphans.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()),
-      );
-      return;
-    }
-
     const target = stored.find((s) => s.id === lastId) ?? stored[0] ?? null;
     if (target) {
+      // readLastActive 依赖 localStorage，只能在挂载后读取（SSR 期间拿不到），因此这里必须用 effect 同步状态。
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveSessionId(target.id);
       writeLastActive(target.id);
       const gens = target.generationIds

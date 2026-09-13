@@ -100,7 +100,15 @@ describe("创作台尺寸", () => {
     render(
       <GeneratorStudio
         {...baseProps}
-        initialGenerations={[createSucceededGeneration()]}
+        initialConversations={[
+          {
+            createdAt: "2026-04-23T08:00:00.000Z",
+            generationIds: ["job_1"],
+            id: "conversation_1",
+            title: "测试会话",
+          },
+        ]}
+        initialGenerations={[createSucceededGeneration({ conversationId: "conversation_1" })]}
       />,
     );
 
@@ -119,8 +127,17 @@ describe("创作台尺寸", () => {
     render(
       <GeneratorStudio
         {...baseProps}
+        initialConversations={[
+          {
+            createdAt: "2026-04-23T08:00:00.000Z",
+            generationIds: ["legacy_size_job"],
+            id: "conversation_1",
+            title: "测试会话",
+          },
+        ]}
         initialGenerations={[
           createSucceededGeneration({
+            conversationId: "conversation_1",
             id: "legacy_size_job",
             size: "1024x1536",
           }),

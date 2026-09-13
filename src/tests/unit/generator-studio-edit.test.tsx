@@ -59,8 +59,17 @@ describe("创作台连续编辑", () => {
           credits: 500,
           role: "user",
         }}
+        initialConversations={[
+          {
+            createdAt: "2026-04-23T08:00:00.000Z",
+            generationIds: ["job_1"],
+            id: "conversation_1",
+            title: "测试会话",
+          },
+        ]}
         initialGenerations={[
           {
+            conversationId: "conversation_1",
             count: 1,
             createdAt: "2026-04-23T08:00:00.000Z",
             creditsSpent: 5,
@@ -100,8 +109,17 @@ describe("创作台连续编辑", () => {
           credits: 500,
           role: "user",
         }}
+        initialConversations={[
+          {
+            createdAt: "2026-04-23T08:00:00.000Z",
+            generationIds: ["job_1"],
+            id: "conversation_1",
+            title: "测试会话",
+          },
+        ]}
         initialGenerations={[
           {
+            conversationId: "conversation_1",
             count: 1,
             createdAt: "2026-04-23T08:00:00.000Z",
             creditsSpent: 5,

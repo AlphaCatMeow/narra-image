@@ -320,7 +320,15 @@ describe("创作台反馈改进", () => {
 
   it("结果图固定展示实际分辨率和比例", () => {
     renderStudio({
-      initialGenerations: [createSucceededGeneration()],
+      initialConversations: [
+        {
+          createdAt: "2026-04-23T08:00:00.000Z",
+          generationIds: ["job_1"],
+          id: "conversation_1",
+          title: "测试会话",
+        },
+      ],
+      initialGenerations: [createSucceededGeneration({ conversationId: "conversation_1" })],
     });
 
     expect(screen.getByText("2048x1152")).toBeInTheDocument();
@@ -330,8 +338,17 @@ describe("创作台反馈改进", () => {
   it("可以复用历史生成配置并回填参考图", async () => {
     const user = userEvent.setup();
     renderStudio({
+      initialConversations: [
+        {
+          createdAt: "2026-04-23T08:00:00.000Z",
+          generationIds: ["job_1"],
+          id: "conversation_1",
+          title: "测试会话",
+        },
+      ],
       initialGenerations: [
         createSucceededGeneration({
+          conversationId: "conversation_1",
           generationType: "image_to_image",
           sourceImageUrl: "https://example.com/source.png",
           sourceImageUrls: ["https://example.com/source.png"],
