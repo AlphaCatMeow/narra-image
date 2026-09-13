@@ -18,7 +18,7 @@
 | [Directory Structure](./directory-structure.md) | `src/app` / `components` / `lib` / `tests` 组织、别名与 feature 目录 | Active |
 | [Component Guidelines](./component-guidelines.md) | 命名导出、`cn()`、variant 模式、无障碍与组合边界 | Active |
 | [Hook Guidelines](./hook-guidelines.md) | `use-*.ts` 命名、命令式返回契约、生命周期清理与轮询模式 | Active |
-| [State Management](./state-management.md) | 无全局状态库：server 初始数据 + 本地 useState + `/api/*` 轮询 | Active |
+| [State Management](./state-management.md) | 无全局状态库：server 初始数据 + 本地 useState + `/api/*` 轮询；server props → 本地状态的同步边界与挂载守卫 | Active |
 | [Type Safety](./type-safety.md) | `types.ts` 字面量联合、zod 中文校验、`prisma-mappers` 序列化、server-only | Active |
 | [Quality Guidelines](./quality-guidelines.md) | lint/tsc/vitest/构建命令、mock 模式、DB 哨兵与验证 wrapper | Active |
 | [Generation Worker Contracts](./generation-worker-contracts.md) | Node/Go/PostgreSQL 生成生命周期与契约验证 | Active |
