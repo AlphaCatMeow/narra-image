@@ -594,11 +594,15 @@ export function GeneratorStudio({
       let conversationId = activeSessionId;
       if (!conversationId) {
         const created = await createSession(snapshot.prompt.slice(0, 30) || "新对话");
-        if (created) {
-          conversationId = created.id;
-          setActiveSessionId(created.id);
-          writeLastActive(created.id);
+        if (!created) {
+          // 会话创建失败必须中止：否则 generation 会以无归属的"孤儿"落库，
+          // 刷新页面后只能从右侧历史图片栏看到，用户会以为图丢了。
+          restoreSnapshot("创建会话失败，请稍后再试");
+          return;
         }
+        conversationId = created.id;
+        setActiveSessionId(created.id);
+        writeLastActive(created.id);
       }
 
       const response =

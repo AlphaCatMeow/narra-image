@@ -213,6 +213,37 @@ describe("创作台：会话视图与历史 generation 隔离", () => {
     expect(screen.getByText(EMPTY_STATE_TEXT)).toBeInTheDocument();
   });
 
+  it("会话创建失败时中止生成并提示，不产生孤儿 generation", async () => {
+    const user = userEvent.setup();
+    const requestedUrls: string[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+        const url = typeof input === "string" ? input : input.toString();
+        requestedUrls.push(url);
+        if (url === "/api/me/conversations" && init?.method === "POST") {
+          return { json: async () => ({ error: "会话创建失败" }), ok: false };
+        }
+        return { json: async () => ({ data: {} }), ok: false };
+      }),
+    );
+
+    render(<GeneratorStudio {...baseProps} initialConversations={[]} initialGenerations={[]} />);
+
+    await user.type(
+      screen.getByPlaceholderText("输入提示词生成图片，或直接粘贴图片进入图生图..."),
+      "会话创建失败用例",
+    );
+    const sendButton = screen.getByRole("button", { name: "发送" });
+    await waitFor(() => expect(sendButton).not.toBeDisabled());
+    await user.click(sendButton);
+
+    expect(await screen.findByText("创建会话失败，请稍后再试")).toBeInTheDocument();
+    // 生成请求不应发出：否则会落一条 conversationId 为 NULL 的孤儿 generation。
+    expect(requestedUrls).not.toContain("/api/generate");
+    expect(screen.getByText(EMPTY_STATE_TEXT)).toBeInTheDocument();
+  });
+
   it("刷新页面时恢复 localStorage 记录的上次活跃会话", () => {
     mockLocalStorage({ [ACTIVE_CONVERSATION_ID]: "conversation_2" });
 
