@@ -196,3 +196,26 @@
 ### Status
 
 [DONE] 两子任务已实现/验证/归档,父任务归档。
+
+
+## Session 2: 修复删除会话后创作台中间区域聚合展示历史 generation
+
+**Date**: 2026-09-13
+**Task**: 修复删除会话后创作台中间区域聚合展示历史 generation
+**Branch**: `main`
+
+### Summary
+
+定位并修复创作台会话视图 bug：初始化 effect 的孤儿兜底分支会在会话列表为空时把页面级全量 generation 倒进中间对话流，叠加删除会话的 SetNull 语义导致删光会话后所有历史图聚合显示；同时该 effect 无挂载守卫，每次 router.refresh() 都会覆盖用户的本地会话操作。修复为移除孤儿兜底 + 加挂载守卫，新增 5 例回归测试（回滚源码验证 3 例转红），适配 4 个既有测试文件的 9 个用例补上会话归属；spec 补充 server props 同步边界约定。全量 401/401 通过，已推送 origin/main。
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `f12cd25` | (see git log) |
+| `a2839f2` | (see git log) |
+| `bf16098` | (see git log) |
+
+### Status
+
+[OK] **Completed**

@@ -8,8 +8,8 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 1
-- **Last Active**: 2026-08-07
+- **Total Sessions**: 2
+- **Last Active**: 2026-09-13
 <!-- @@@/auto:current-status -->
 
 ---
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~30 | Active |
+| `journal-1.md` | ~221 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,6 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits | Branch |
 |---|------|-------|---------|--------|
+| 2 | 2026-09-13 | 修复删除会话后创作台中间区域聚合展示历史 generation | `f12cd25`, `a2839f2`, `bf16098` | `main` |
 | 1 | 2026-08-07 | 完成生成 Worker 跨层契约 | `d48268a`, `fb3ae68`, `82d2aeb` | `main` |
 <!-- @@@/auto:session-history -->
 
